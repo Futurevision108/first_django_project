@@ -30,7 +30,7 @@ if os.path.isfile('env.py'):
 SECRET_KEY = os.environ.get('SECRET_KEY')   
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['.herokuapp.com', 'localhost', '127.0.0.1']
 
@@ -55,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware'
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -128,6 +129,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# Where `collectstatic` will collect static files for production
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Additional directories to look for static files (e.g. a project-level "static/" folder)
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
+
+# Use WhiteNoise storage backend to serve compressed, cacheable static files in production
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
